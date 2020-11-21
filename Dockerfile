@@ -12,8 +12,10 @@ RUN apt-get update \
 
 # Configure Nginx and apply fix for very long server names
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
- && echo "client_max_body_size 15000m;" > /etc/nginx/conf.d/custom_proxy.conf \
  && sed -i 's/worker_processes  1/worker_processes  auto/' /etc/nginx/nginx.conf
+
+RUN echo "client_max_body_size 16000m;" > /etc/nginx/conf.d/custom_proxy.conf \
+ && echo "client_body_buffer_size 128k;" >> /etc/nginx/conf.d/custom_proxy.conf
 
 # Install Forego
 ADD https://github.com/jwilder/forego/releases/download/v0.16.1/forego /usr/local/bin/forego
